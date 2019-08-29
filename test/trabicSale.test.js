@@ -127,6 +127,12 @@ describe('timed crowdsale', function() {
     //   isClosed.should.be.false;
     //   isOpen.should.be.true;
     });
+
+    it('it descripe Wei Raised By Owner ', async function(){
+
+      var waiRaised = await this.trabicCrowdSale.weiRaised();
+      console.log("Wei Raised is : "+ Number(waiRaised));
+    })
   });
 
   /////// WhiteListed Crowd Sale ////////

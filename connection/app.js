@@ -85,6 +85,22 @@ return tokenRate;
     console.log("Erorr is : "+ err);
   }
 },
+
+totalSupply:async function(){  ////// Total Supply is///////////
+  let token;
+  var self =this;
+  try{
+ await CrowdSale.setProvider(self.web3.currentProvider)
+
+ 
+ token = await TrabicCoin.deployed();
+ const totalSupply=await token.totalSupply();
+return totalSupply;
+  }
+  catch(err){
+    console.log("Erorr is : "+ err);
+  }
+},
 weiRaised:async function(){  ////// Get Wei Raised ///////////
   let token;
   var self =this;
@@ -93,8 +109,8 @@ weiRaised:async function(){  ////// Get Wei Raised ///////////
 
  
  token = await CrowdSale.deployed();
- const tokenRate=await token.weiRaised();
-return tokenRate;
+ const waiRaised=await token.weiRaised();
+return waiRaised;
   }
   catch(err){
     console.log("Erorr is : "+ err);

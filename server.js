@@ -35,25 +35,21 @@ app.use(bodyParser.json());
 
 
 
-app.get('/getAccounts', (req, res) => {
+app.get('/getAccounts', (req, res) => {        //   Get All Accounts
   console.log("**** GET /getAccounts ****");
   truffle_connect.start(function (answer) {
     res.send(answer);
   })
 });
-app.get('/sendTranacrion',async(req,res)=>{
-//let getaccount=await truffle_connect.start();
- //console.log('hammad zahid 12234  '+getaccount)
- let pakistan=await truffle_connect.lifeIsTest();
+    app.get('/sendTranacrion',async(req,res)=>{   // 
+    //let getaccount=await truffle_connect.start();
+    //console.log('hammad zahid 12234  '+getaccount)
+    let pakistan=await truffle_connect.lifeIsTest();
+    res.send("transection is true")
 
+    })
 
-
-
-res.send("transection is true")
-
-})
-
-app.post('/getBalance', (req, res) => {
+app.post('/getBalance', (req, res) => {     // Get Balance of All Accounts Registered
   console.log("**** GET /getBalance ****");
   console.log(req.body);
   let currentAcount = req.body.account;
@@ -69,7 +65,7 @@ app.post('/getBalance', (req, res) => {
   });
 });
 
-app.post('/sendCoin', (req, res) => {
+app.post('/sendCoin', (req, res) => {     //    Send Coin
   console.log("**** GET /sendCoin ****");
   console.log(req.body);
 
@@ -83,16 +79,6 @@ app.post('/sendCoin', (req, res) => {
 });
 
 
-// app.get('/:id', function(req, res){
-//   console.log(req.params.id);
-//   res.send("Hel");
-
-//   // res.sendFile(_dirname + '/'+ req.params.id );//req.params.id
-// });
-
-
-
-
 
 app.get('/getTokenName',async(req,res)=>{   ///// Getting Token ///////
   // console.log("pre provider")
@@ -104,41 +90,52 @@ app.get('/getTokenName',async(req,res)=>{   ///// Getting Token ///////
 app.get('/getTokenSymbol',async(req,res)=>{   ///// Getting Token Symbol ///////
   // console.log("pre provider")/ate',async(req,res)=>{   ///// Getting Token  Rate///////
   // console.log("pre provider")
+  const tokenSymbol =await truffle_connect.tokenSymbol();
+  console.log('Token Decemal is:  '+ tokenSymbol);
+  res.send(tokenSymbol);
+});
+app.get('/getTokenRate',async(req,res)=>{   ///// Getting Token Rate in Wei ///////
+  // console.log("pre provider")/ate',async(req,res)=>{   ///// Getting Token  Rate///////
+  // console.log("pre provider")
   const tokenRate =await truffle_connect.tokenRate();
   console.log('Token Decemal is:  '+ tokenRate);
   res.send(tokenRate);
 });
-app.get('/getWeiRaised',async(req,res)=>{   ///// Getting Wei Raised ///////
+app.get('/getWeiRaised',async(req,res)=>{   ///// Getting Wei  Raised ///////
   // console.log("pre provider")
   const weiRaised =await truffle_connect.weiRaised();
   console.log("Raised Wei is:  "+ weiRaised);
   res.send(weiRaised);
 });
+app.get('/getTotalSupply', async (req, res)=>{
+  var totalSupply = await truffle_connect.totalSupply();
+  res.send("Total Supply is: "+ totalSupply);
+})
 app.get('/getTokenAddress',async(req,res)=>{   ///// Getting Token Address ///////
   // console.log("pre provider")
   const tokenAddress = await truffle_connect.tokenAddress();
   console.log("Token Address is:  "+ tokenAddress);
-  res.send(tokenAddress);
+  res.send("Token Address is:  "+ tokenAddress);
 });
-app.get('/getWalletAddress',async(req,res)=>{   ///// Getting Token Address ///////
+app.get('/getWalletAddress',async(req,res)=>{   ///// Getting Wallet Address ///////
   // console.log("pre provider")
   const walletAddress = await truffle_connect.walletAddress();
-  console.log("Wallet Address is:  "+ walletAddress);
-  res.send(walletAddress);
+  console.log("your Wallet Address is :  "+ walletAddress);
+  res.send("your Wallet Address is :  "+ walletAddres);
 });
-app.get('/getHardCap',async(req,res)=>{   ///// Getting Token Address ///////
+app.get('/getHardCap',async(req,res)=>{   ///// Getting Hard Cap  or JusAddress ///////
   // console.log("pre provider")
   const hardCap = await truffle_connect.hardCap();
-  console.log("Wallet Address is:  "+ hardCap);
-  res.send(hardCap);
+  console.log("Your Token Cap is :  "+ hardCap);
+  res.send("Your Token Cap is :  "+ hardCap);
 });
 app.get('/sendTransaction',async(req,res)=>{   ///// Send Transaction  ///////
   
    await truffle_connect.start(async function (answer){sidebar
    
     const sendTransaction = await truffle_connect.sendTransaction(answer);
-  console.log("Wallet Address is:  "+ sendTransaction);
-  res.send(sendTransaction);
+  console.log("Send Transaction Successfully:  "+ sendTransaction);
+  res.send("Send Transaction Successfully:  "+ sendTransaction);
 
   });
 });
@@ -153,6 +150,7 @@ app.get('/buyToken',async(req,res)=>{   ///// Buy Token  ///////
 
   });
 });
+
 
 app.get('/getBalances', async(req, res)=>{     // If we Want to get Balance of Current User then Call getBalances
 
@@ -174,6 +172,8 @@ app.get('/', async(req,res)=>{
   // res.render(__dirname + '/views/index.handlebars');
   truffle_connect.start(async(answer)=> {
     var balanceOf = await truffle_connect.balanceOfUser(answer);
+    var totalSupply = await truffle_connect.totalSupply();
+    const hardCap = await truffle_connect.hardCap();
     res.render(__dirname + '/views/index.handlebars',{balanceIs: balanceOf });
   })
    
@@ -184,7 +184,13 @@ app.get('/', async(req,res)=>{
 app.get('/index', async( req, res)=>{   //   Go to Index page
   truffle_connect.start(async(answer)=> {
     var balanceOf = await truffle_connect.balanceOfUser(answer);
-    res.render(__dirname + '/views/index.handlebars',{balanceIs: balanceOf });
+    const hardCap = await truffle_connect.hardCap();
+    var totalSupply = await truffle_connect.totalSupply();
+    res.render(__dirname + '/views/index.handlebars',{
+      balanceIs: balanceOf, 
+      distributed: totalSupply,
+      cap: hardCap
+    });
   })
   
 });
