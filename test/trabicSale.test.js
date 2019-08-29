@@ -111,9 +111,12 @@ contract('this is the trabic Crowdsale ',function([_,wallet,invester1,invester2]
         const hardCap = await this.trabicCrowdSale.cap();
         const hardCap1= hardCap.toString();
         const cap = await this.cap.toString();
+        console.log("Cap is "+ cap);
        
         assert.equal(cap,hardCap, ' Cap rate is correct both are not  equal');
     })
+
+   
 })
 
 /////    Timed CrowdSale       ///////
