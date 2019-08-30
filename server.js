@@ -6,6 +6,8 @@ const truffle_connect = require('./connection/app.js');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+const price_conncet = require('./test/coinbaseApi/price.js');
+
 // const showData_connect = require('./views/accounts.js');
 
 
@@ -33,6 +35,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+app.get("/getPrice", async(req,res)=>{    // Convert Ether to  Dollat
+  console.log("**** GET /getPrice ****");
+  const tokenRate =await truffle_connect.tokenRate();
+  price_conncet.getPrice(tokenRate, function (answer) {
+    res.send("Your Ether Price in Dollar is  $ "+ answer);
+})
+})
+app.get("/getTotalDollar", async(req,res)=>{    // Convert Percentage to Show Percentage of Funding in Dollars
+  console.log("**** GET /getPrice ****");
+  const weiRaised =await truffle_connect.weiRaised();
+  price_conncet.getPrice(weiRaised, function (answer) {
+    res.send("Your Ether Price in Dollar is  $ "+ answer);
+})
+})
 
 
 app.get('/getAccounts', (req, res) => {        //   Get All Accounts
@@ -168,15 +184,25 @@ app.get('/getBalances', async(req, res)=>{     // If we Want to get Balance of C
 })
 
 
-app.get('/', async(req,res)=>{
-  // res.render(__dirname + '/views/index.handlebars');
+app.get('/', async(req,res)=>{           
   truffle_connect.start(async(answer)=> {
     var balanceOf = await truffle_connect.balanceOfUser(answer);
-    var totalSupply = await truffle_connect.totalSupply();
     const hardCap = await truffle_connect.hardCap();
-    res.render(__dirname + '/views/index.handlebars',{balanceIs: balanceOf });
+    var totalSupply = await truffle_connect.totalSupply();
+    const weiRaised =await truffle_connect.weiRaised();
+   await price_conncet.getPrice(weiRaised, function (dollarRaised) {
+
+
+    var raisedPercentage = (dollarRaised*100)/5000000;
+     
+      res.render(__dirname + '/views/index.handlebars',{
+      balanceIs: balanceOf, 
+      distributed: totalSupply,
+      cap: hardCap,
+      dollarRaised: raisedPercentage
+    });
   })
-   
+  })
 })
 
 ///////////////// Routing of Some Specifc Pages here
@@ -186,11 +212,22 @@ app.get('/index', async( req, res)=>{   //   Go to Index page
     var balanceOf = await truffle_connect.balanceOfUser(answer);
     const hardCap = await truffle_connect.hardCap();
     var totalSupply = await truffle_connect.totalSupply();
-    res.render(__dirname + '/views/index.handlebars',{
+
+    const weiRaised =await truffle_connect.weiRaised();
+   await price_conncet.getPrice(weiRaised, function (dollarRaised) {
+
+
+    var raisedPercentage = (dollarRaised*100)/5000000;
+     
+      res.render(__dirname + '/views/index.handlebars',{
       balanceIs: balanceOf, 
       distributed: totalSupply,
-      cap: hardCap
+      cap: hardCap,
+      dollarRaised: raisedPercentage
     });
+  })
+ 
+   
   })
   
 });

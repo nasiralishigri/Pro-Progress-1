@@ -12,8 +12,8 @@ import "../node_modules/openzeppelin-solidity/contracts/crowdsale/distribution/R
 import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract trabicCrowdSale is Crowdsale,MintedCrowdsale ,CappedCrowdsale ,Ownable,TimedCrowdsale, WhitelistCrowdsale , RefundableCrowdsale{
-    uint256 public investorMinCap = 2000000000000000; // 0.002 ether
-  uint256 public investorHardCap = 50000000000000000000;// 2 ether
+    uint256 public investorMinCap = 1; // 0.002 ether
+  uint256 public investorHardCap = 500;// 2 ether
   mapping(address => uint256) public contributions;
 
   // ICO Stages

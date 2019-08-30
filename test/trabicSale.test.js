@@ -233,10 +233,10 @@ describe('buyTokens()' , function(){
 
      describe('When Contribution is less than min investment Cap', function(){ // Min Investment
          it('it shoud reject transactions', async function(){
-             const value = this.investorMinCap -100 ;
+             const value = this.investorMinCap + ether(10) ;
             //  console.log("Value is : "+ value);
         
-            //  await this.trabicCrowdSale.buyTokens(invester2, {value: value , from: invester2}).should.be.rejectedWith(EVMRevert);
+             await this.trabicCrowdSale.buyTokens(invester2, {value: value , from: invester2}).should.be.rejectedWith(EVMRevert);
          })
     
     describe(' When Contribution exceed hard Cap', function(){
@@ -252,6 +252,7 @@ describe('buyTokens()' , function(){
 
                 })
             })
+            it()
      })
 
      describe('when the investor has already met the minimum cap', function() {

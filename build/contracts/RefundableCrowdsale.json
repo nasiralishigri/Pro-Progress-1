@@ -3219,7 +3219,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-08-29T10:49:24.907Z",
+  "updatedAt": "2019-08-30T13:35:13.875Z",
   "devdoc": {
     "methods": {
       "buyTokens(address)": {

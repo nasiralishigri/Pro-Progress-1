@@ -6008,12 +6008,12 @@
         }
       },
       "links": {},
-      "address": "0xEBA7F128dBC0dC905b27e7602412a8D028b9abaf",
-      "transactionHash": "0xa565f2f7db6cea5e7db530ff10462bf71a7adcf4f7d6a315cebe8c0010fdb502"
+      "address": "0x453F87e500271b31F5f86d682Cb93c74cD940eC1",
+      "transactionHash": "0xa126af11c0593310d4649c263321da2eb2aa9021d29a26f1b4b1f7b3300919fc"
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-08-29T10:49:26.410Z",
+  "updatedAt": "2019-08-30T13:35:15.030Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {
