@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Block a Head Dashboard</title>
     {{!-- <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> --> --}}
-    <script src="./js/jquery-3.2.1.min.js"> </script> 
-    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
+    {{!-- <script src="./js/jquery-3.2.1.min.js"> </script>  --}}
+    {{!-- <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script> --}}
+    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script> --}}
     
-   {{!-- <script type="text/javascript"  src="accounts.js" ></script> --}}
+   
 
     <!-- Bootstrap -->
     <link href="css/bootstrap-4.0.0.css" rel="stylesheet">
@@ -25,7 +25,6 @@
 
 
  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script> Handle Bar CDN -->
-	
 
   </head>
   <body> 
@@ -238,14 +237,15 @@
     </span>
     <ul class="navbar-nav ml-auto">
 		 <li class="nav-item dropdown main-nav__links">
-        <a class="nav-link username1" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-wallet"></i>
+        <a class="nav-link username1" href="/wallet"
+        role="button"  aria-haspopup="true" aria-expanded="false"><i class="fas fa-wallet"></i>
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        {{!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">Action</a>
           <a class="dropdown-item" href="#">Another action</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
-        </div>
+        </div> --}}
       </li>
 	 <li class="nav-item dropdown main-nav__links">
         <a class="nav-link username1" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i> 
@@ -277,15 +277,15 @@
 				  <div class="banner_content"> 
 without additional fees</h4>
 	 				<div class="row">
-                          <div class="col-md-2"><input class="form-control_bnr place" type="text" placeholder="ICO Token"></div>
+                          <div class="col-md-2"><input class="form-control_bnr place" type="text" placeholder="ICO Token" id="token_id" ></div>
 						  <div class="col-md-1"><div class="row"><div class="go"><i class="fas fa-arrow-right"></i></div></div></div>
-						  <div class="col-md-2"><input class="form-control_bnr place" type="text" placeholder="ETH"></div>
+						  <div class="col-md-2"><input class="form-control_bnr place" type="text" placeholder="ETH" id="selected_curr_id"></div>
 						  <div class="col-md-3">
 						      <select class="form-control_bnr place" id="sel1" name="sellist1">
         <option>ETH</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
+        <option>BTC</option>
+        <option>USD</option>
+        <option>XRP</option>
       </select>
 							  
 <!--							  <select class="custom-select place">
@@ -295,7 +295,7 @@ without additional fees</h4>
   <option value="3">3</option>
 </select>-->
 						</div>
-						  <div class="col-md-4"><input class="form-control_bnr place" type="text" placeholder="Wallet Address"></div>
+						  <div class="col-md-4"><input class="form-control_bnr place" type="text" placeholder="Wallet Address" id="walletAddress"></div>
 					  </div>
 						 <button type="button" class="btn btn-primary allbtn">Withdraw</button>
 						 </div> 
@@ -722,7 +722,8 @@ quia velit nulla adipisci? Consequuntur aspernatur at.
     
     </body>
  
-  {{!-- <script src="./js/testingConnection.js"></script>  --}}
+ 	
+ 
 
  {{!-- <script src=" https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>    --}}
 
@@ -733,4 +734,10 @@ quia velit nulla adipisci? Consequuntur aspernatur at.
    <script src="js/truffle-contract.min.js"></script> --}} 
     <!-- <script src="../server.js"></script> -->
     <!-- <script src="../connection/app.js"></!--> 
+         {{!-- <script src="../dist/bundle.js"><{{!}}/script> --}}
+
+     <script src="./js/accounts.js"></script>
+    
+     
+
 </html>

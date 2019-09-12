@@ -1,12 +1,13 @@
 const express = require('express');
 const app = express();
-const port = 3003 || process.env.PORT;
+const port = 3000 || process.env.PORT;
 const Web3 = require('web3');
 const truffle_connect = require('./connection/app.js');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-const price_conncet = require('./test/coinbaseApi/price.js');
+const price_connect = require('./test/coinbaseApi/price.js');
+var unique = require('uniq');
 
 // const showData_connect = require('./views/accounts.js');
 
@@ -24,7 +25,9 @@ app.set('view engine', 'handlebars');
 // app.set('views', viewsPath)
 
 app.set('view engine', 'handlebars');
-
+app.use(express.static(__dirname + '/dist/bundle.js'));
+app.use(express.static(__dirname + '/views/js')); 
+ 
 app.use('/', express.static(__dirname + '/views'));
 app.use('/index', express.static('views'));
 
@@ -35,17 +38,39 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.get("/getPrice", async(req,res)=>{    // Convert Ether to  Dollat
-  console.log("**** GET /getPrice ****");
-  const tokenRate =await truffle_connect.tokenRate();
-  price_conncet.getPrice(tokenRate, function (answer) {
-    res.send("Your Ether Price in Dollar is  $ "+ answer);
+
+
+
+
+app.get("/getEthToBTC", async(req,res)=>{    // Convert Eth to BTC and return BTC amount
+
+  console.log("**** GET / getToUSD  *******");
+  // const tokenRate =await truffle_connect.tokenRate();
+
+  var answer = await price_connect.getEthToBTC();
+  res.send( answer);
+
+
 })
+
+app.get("/getEthToUSD", async(req,res)=>{    // Convert Ether to Dollar
+  console.log("**** GET /getEthToUSD ****");
+  // const tokenRate =await truffle_connect.tokenRate();
+  // var answer;
+
+  await price_connect.getEthToUSD(function(answer){
+    console.log("Eth to USD is "+ answer);
+
+    res.send(answer);
+
+   });
+ 
+       
 })
 app.get("/getTotalDollar", async(req,res)=>{    // Convert Percentage to Show Percentage of Funding in Dollars
   console.log("**** GET /getPrice ****");
   const weiRaised =await truffle_connect.weiRaised();
-  price_conncet.getPrice(weiRaised, function (answer) {
+  price_connect.getPrice(weiRaised, function (answer) {
     res.send("Your Ether Price in Dollar is  $ "+ answer);
 })
 })
@@ -137,7 +162,7 @@ app.get('/getWalletAddress',async(req,res)=>{   ///// Getting Wallet Address ///
   // console.log("pre provider")
   const walletAddress = await truffle_connect.walletAddress();
   console.log("your Wallet Address is :  "+ walletAddress);
-  res.send("your Wallet Address is :  "+ walletAddres);
+  res.send( walletAddress);
 });
 app.get('/getHardCap',async(req,res)=>{   ///// Getting Hard Cap  or JusAddress ///////
   // console.log("pre provider")
@@ -190,10 +215,11 @@ app.get('/', async(req,res)=>{
     const hardCap = await truffle_connect.hardCap();
     var totalSupply = await truffle_connect.totalSupply();
     const weiRaised =await truffle_connect.weiRaised();
-   await price_conncet.getPrice(weiRaised, function (dollarRaised) {
+    await price_connect.getEthToUSD(function (ethToUsd) { 
 
-
-    var raisedPercentage = (dollarRaised*100)/5000000;
+    console.log("Eth to USD returning .. "+ethToUsd );
+  var dollarRaised  =  (weiRaised/1000000000000000000) * ethToUsd;
+    var raisedPercentage =  (dollarRaised*100)/5000000;
      
       res.render(__dirname + '/views/index.handlebars',{
       balanceIs: balanceOf, 
@@ -214,12 +240,39 @@ app.get('/index', async( req, res)=>{   //   Go to Index page
     var totalSupply = await truffle_connect.totalSupply();
 
     const weiRaised =await truffle_connect.weiRaised();
-   await price_conncet.getPrice(weiRaised, function (dollarRaised) {
+  var ethToUsd =  await price_connect.getEthToUSD() /*, function (dollarRaised) { */
+    var dollarRaised  = await (weiRaised/1000000000000000000) * ethToUsd;
 
+
+    var raisedPercentage = await (dollarRaised*100)/5000000;
+     
+      res.render(__dirname + '/views/index.handlebars',{
+      balanceIs: balanceOf, 
+      distributed: totalSupply,
+      cap: hardCap,
+      dollarRaised: raisedPercentage
+    });
+  // })
+ 
+   
+  })
+  
+});
+app.get('/buyico', async( req, res)=>{    //   Route to Buy ICO Page
+
+  truffle_connect.start(async(answer)=> {
+    var balanceOf = await truffle_connect.balanceOfUser(answer);
+    const hardCap = await truffle_connect.hardCap();
+    var totalSupply = await truffle_connect.totalSupply();
+
+    const weiRaised =await truffle_connect.weiRaised();
+  await price_connect.getEthToUSD( function ( ethToUsd) { 
+
+    var dollarRaised  =  (weiRaised/1000000000000000000) * ethToUsd;
 
     var raisedPercentage = (dollarRaised*100)/5000000;
      
-      res.render(__dirname + '/views/index.handlebars',{
+      res.render(__dirname + '/views/buyico.handlebars',{
       balanceIs: balanceOf, 
       distributed: totalSupply,
       cap: hardCap,
@@ -229,10 +282,7 @@ app.get('/index', async( req, res)=>{   //   Go to Index page
  
    
   })
-  
-});
-app.get('/buyico', async( req, res)=>{    //   Route to Buy ICO Page
-  res.render(__dirname + '/views/buyico.handlebars');
+  // res.render(__dirname + '/views/buyico.handlebars');
   
 });
 app.get('/history', async( req, res)=>{  // Route to History Page
@@ -255,7 +305,11 @@ app.get('/faqs', async( req, res)=>{      // Route to Faws Page
   res.render(__dirname + '/views/faqs.handlebars');
   
 });
+app.get('/:id', async(req, res)=>{
 
+  
+   res.send("We could not find the resource you requested. 404 Not Found Whops!");
+})
 
 
 app.listen(port, () => {

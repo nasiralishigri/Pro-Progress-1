@@ -7,7 +7,7 @@
     <title>Block a Head Dashboard</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap-4.0.0.css" rel="stylesheet">
+    {{!-- <link href="css/bootstrap-4.0.0.css" rel="stylesheet"> --}}
 	   <link rel="stylesheet" href="css/style.css">
 	  
 	<script src="https://kit.fontawesome.com/86995dd98e.js"></script>
@@ -297,7 +297,7 @@
   <div class="balance">
 	  <br/><br/>
 	  <p>Your Balance:</p>
-		  <span>3,458.88 TRC</span>
+		  <span>{{balanceIs}} TRC</span>
 		  <p>Welcome bonus +30% expires in 21 days.</p>
 		   <button type="button" class="btn btn-primary allbtn allbtn2">Buy Now</button>
 	  <br/><br/>
@@ -334,16 +334,16 @@
 		   <span class="float-right tkn_sale">$5M</span>
 	  <div class="clearfix"></div>
 	  <div class="progress"> 
-		  <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+		  <div class="progress-bar bg-info" role="progressbar" style="width: {{dollarRaised}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
 	  <br/>
 	  <span class="float-left tkn_sale">
 		  Distributed<br/>
-	  6,235,125 TRC
+	  {{distributed}} TRC
 	  </span>
 		   <span class="float-right tkn_sale">
-	  Contributed<br/>
-	  6,235,125 TRC
+	  CAP<br/>
+	  {{cap}} TRC
 	  </span>
 	  <br/><br/>
 	  <br/> 
@@ -353,7 +353,7 @@
   </div>
    
 </div>  
-				</div>z
+				</div>
 					 
 					 <div class="col-md-4 pr-2 pl-2"> 
 					 <div id="accordion" class="allpadd">
@@ -376,7 +376,7 @@
       <div class="accord_data">
             <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
   <div class="input-group mb-2 mr-sm-2"> 
-    <input type="text" class="form-control form-control_calc" id="inlineFormInputGroupUsername2" placeholder="ETH">
+    <input type="text" class="form-control form-control_calc"  placeholder="ETH" id="toETH">
 	  <div class="input-group-prepend"> 
 		 <div class="input-group-text"><i class="fas fa-arrows-alt-v"></i></div>
     </div>
@@ -384,7 +384,7 @@
 
 		              <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
   <div class="input-group mb-2 mr-sm-2"> 
-    <input type="text" class="form-control form-control_calc" id="inlineFormInputGroupUsername2" placeholder="BTC">
+    <input type="text" class="form-control form-control_calc"  placeholder="BTC" id="toBTC">
 	  <div class="input-group-prepend"> 
 		 <div class="input-group-text"><i class="fab fa-btc"></i></div>
     </div>
@@ -392,7 +392,7 @@
 		  		              
 		  <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
   <div class="input-group mb-2 mr-sm-2"> 
-    <input type="text" class="form-control form-control_calc" id="inlineFormInputGroupUsername2" placeholder="USD">
+    <input type="text" class="form-control form-control_calc"  placeholder="USD" id="toUSD">
 	  <div class="input-group-prepend"> 
 		 <div class="input-group-text"><i class="fas fa-dollar-sign"></i></div>
     </div>
@@ -407,7 +407,7 @@
 		  
 		              <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
   <div class="input-group mb-2 mr-sm-2"> 
-    <input type="text" class="form-control form-control_calc" id="inlineFormInputGroupUsername2" placeholder="TRC">
+    <input type="text" class="form-control form-control_calc" id="toTRC" placeholder="TRC" >
 	  <div class="input-group-prepend"> 
 		 <div class="input-group-text"><i class="fas fa-layer-group"></i></div>
     </div>
@@ -638,14 +638,17 @@
     <script src="js/jquery-3.2.1.min.js"></script>
 
     <!-- Include all compiled plugins (below), or include individual files as needed --> 
-    <script src="js/popper.min.js"></script>
+    {{!-- <script src="js/popper.min.js"></script>
     <script src="js/bootstrap-4.0.0.js"></script> 
 	<script  src="js/divslide.js"></script> 
 	  <script  src="js/search.js"></script> 
 	  <script src="js/switch.js"></script>
-	  <script src="js/chart.js"></script>
-	   <script src="js/piechart.js"></script>
-	  <script src="js/stepbar.js"></script>
-	    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	  {{!-- <script src="js/chart.js"></script> --}}
+	   {{!-- <script src="js/piechart.js"></script> --}}
+	  <script src="js/stepbar.js"></script> --}}
+	    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script> --}}
+  
+   <script src="./js/buyico.js"></script>
+
   </body>
 </html>

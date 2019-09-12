@@ -1,6 +1,9 @@
 var Migrations = artifacts.require("./Trabic.sol");
 var CrowdSale = artifacts.require("./trabicCrowdSale.sol");
 var price_connect =require('../test/coinbaseApi/price.js');
+var ether = require('./../test/helpers/ethers.js');
+
+const RefundVault = artifacts.require('../node_modules/openzeppelin-solidity/contracts/crowdsale/distribution/utils/RefundVault.sol');
 
 module.exports =async function(deployer,accounts) {
   await deployer.deploy(Migrations,'Trabic','TRC',18);
@@ -10,6 +13,8 @@ module.exports =async function(deployer,accounts) {
 
   const wei=100000000000000;
   const _cap=100000000 ;
+  // const minCap = 2000000000000000;
+  // var hardCap = 50000000000000000000;
 
  
   var _rate=  100000000000000;
@@ -25,8 +30,11 @@ module.exports =async function(deployer,accounts) {
   var closingTime =   15662999999999;
   var _goal = 100000;
 
-await deployer.deploy(CrowdSale,_rate,checkAccount[1], trabiAddress,_cap,openinigTime, closingTime , _goal);
-  //  await CrowdSale.deployed();
+var crowdSale = await deployer.deploy(CrowdSale,_rate,checkAccount[1], trabiAddress,_cap,openinigTime, closingTime , _goal);
+
+   await CrowdSale.deployed();
+   var crowdSaleAddress = crowdSale.address;
+  await deployer.deploy(RefundVault,crowdSaleAddress);
 
 
 };

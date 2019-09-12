@@ -1,5 +1,6 @@
 const { balance, expectEvent } = require('openzeppelin-test-helpers');
-var ether = require('./helpers/ehers.js');
+var ether = require('./helpers/ethers.js');
+
 var { AssertionError } = require('assert');
 const BigNumber = web3.BigNumber;
 var EVMRevert = require('./helpers/EVMRevert');
@@ -233,7 +234,7 @@ describe('buyTokens()' , function(){
 
      describe('When Contribution is less than min investment Cap', function(){ // Min Investment
          it('it shoud reject transactions', async function(){
-             const value = this.investorMinCap + ether(10) ;
+             const value = this.investorMinCap  - 100 ;
             //  console.log("Value is : "+ value);
         
              await this.trabicCrowdSale.buyTokens(invester2, {value: value , from: invester2}).should.be.rejectedWith(EVMRevert);
@@ -252,7 +253,7 @@ describe('buyTokens()' , function(){
 
                 })
             })
-            it()
+            // it()
      })
 
      describe('when the investor has already met the minimum cap', function() {

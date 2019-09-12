@@ -3,18 +3,22 @@ pragma solidity ^0.4.23;
 //import "openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
 //import "openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol";
 import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol";
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Pausable.sol";
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/DetailedERC20.sol";
+import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/RBACMintableToken.sol";
 
 
 
 
-contract Trabic is ERC20Mintable, ERC20Pausable, ERC20Detailed, Ownable{
+contract Trabic is MintableToken, PausableToken, DetailedERC20{
    // string public constant name = "ERC20Token"; // solium-disable-line uppercase
-    //string public constant symbol = "ERC"; // solium-disable-line uppercase
-    //uint8 public constant decimals = 18; // solium-disable-line uppercase
-   // uint256 public constant INITIAL_SUPPLY = 10000 * (10 ** uint256(decimals));
+  //string public constant symbol = "ERC"; // solium-disable-line uppercase
+ //uint8 public constant decimals = 18; // solium-disable-line uppercase
+// uint256 public constant INITIAL_SUPPLY = 10000 * (10 ** uint256(decimals));
+
+
     uint8 public constant SUCCESS_CODE = 0;
     uint8 public constant ZERO_ADDRESS_RESTRICTION_CODE = 1;
     string public constant UNKNOWN_MESSAGE = "UNKNOWN";
@@ -23,7 +27,7 @@ contract Trabic is ERC20Mintable, ERC20Pausable, ERC20Detailed, Ownable{
     mapping (address => uint256) private blacklist;
 
   function Trabic(string memory _name, string memory _symbol, uint8 _decimals)
-        ERC20Detailed(_name,_symbol,_decimals)
+        DetailedERC20(_name,_symbol,_decimals)
         public
     {
 

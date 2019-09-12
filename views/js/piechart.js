@@ -49,12 +49,12 @@ google.setOnLoadCallback(drawChart);
 
         var data = google.visualization.arrayToDataTable([
           ['Task', 'Hours per Day'],
-          ['Owner',     20],
-          ['Invester',      60],
+          ['Owner',     10],
+          ['Invester',      70],
           ['Partner',  10],
           // ['Watch TV', 2],
           // ['Sleep',    7],
-		  ['Development',    20]
+		  ['Development',    10]
         ]);
 
         var options = {
