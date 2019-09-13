@@ -32,7 +32,7 @@ contract('this is the trabic Crowdsale ',function([_,wallet,invester1,invester2]
         // console.log("Latest TimeStamp of Block is:  "+latestTime );
        
 
-        this.openingTime = latestTimes + duration.seconds(10);//2589000
+        this.openingTime = latestTimes + duration.seconds(1);//2589000
          this.closingTime = this.openingTime + duration.weeks(1);
         // console.log("Closing Time is :"+this.closingTime );
      // Token Distribution
@@ -51,16 +51,26 @@ contract('this is the trabic Crowdsale ',function([_,wallet,invester1,invester2]
 
         this.wallet=wallet; 
         this.trabicCrowdSale=await trabicSale.new(500,this.wallet,this.trabicToken.address,this.cap.toString(), this.openingTime, this.closingTime, this.goal);
-      
-         // Transfer token ownership to crowdsale address
-         await this.trabicToken.transferOwnership(this.trabicCrowdSale.address)
 
-         await this.trabicToken.addMinter(this.trabicCrowdSale.address)
+          // Transfer token ownership to crowdsale address
+          await this.trabicToken.transferOwnership(this.trabicCrowdSale.address)
+
+          await this.trabicToken.addMinter(this.trabicCrowdSale.address)
+ 
+ await wait(2000);
+          // Add investors to whitelist
+     await this.trabicCrowdSale.addWhitelisted(invester1);
+     await this.trabicCrowdSale.addWhitelisted(invester2);
 
     });
   
 
 
+    async function wait(ms) {
+        return new Promise(resolve => {
+          setTimeout(resolve, ms);
+        });
+      }
   
 
     describe("Caped CrowdSale ", function(){   /// Check Hard Cap ///
@@ -116,10 +126,10 @@ contract('this is the trabic Crowdsale ',function([_,wallet,invester1,invester2]
        
                // First contribution is in valid range
                const value1 = ether(2);
-               await this.trabicCrowdSale.buyTokens(invester2, { value: value1, from: invester2 });
+               await this.trabicCrowdSale.buyTokens(invester1, { value: value1, from: invester2 });
                // Second contribution sends total contributions over investor hard cap
                const value2 = ether(49);
-               await this.trabicCrowdSale.buyTokens(invester2, { value: value2, from: invester2 }).should.be.rejectedWith(EVMRevert);
+               await this.trabicCrowdSale.buyTokens(invester1, { value: value2, from: invester2 }).should.be.rejectedWith(EVMRevert);
        
                        })
                    })
@@ -129,15 +139,18 @@ contract('this is the trabic Crowdsale ',function([_,wallet,invester1,invester2]
 
             describe('when the contribution is within the valid range', function(){
                 it("it succeeded and Update the Contribution Amount  ", async function(){
-                const value = ether(0.02);
-                await this.trabicCrowdSale.buyTokens(invester1, { value:value , from: invester1}).should.be.fulfilled;
+                const value1 = ether(0.02);
+                const value2 = ether(1);
+                const sumVal = Number(value1) + Number(value2);
+                await this.trabicCrowdSale.buyTokens(invester1, { value:value1 , from: invester1}).should.be.fulfilled;
 
+                await this.trabicCrowdSale.buyTokens(invester1, { value:value2 , from: invester1}).should.be.fulfilled;
 
                 var  contribute = await this.trabicCrowdSale.contributions(invester1);
-                console.log("Contribution direcctly : " + contribute + "     \n Value     :  "+ value);
+                console.log("Contribution direcctly : " + contribute + "     \n Value     :  "+ sumVal);
                 // var contribution = await this.trabicCrowdSale.getUserContribution(invester1);
                 // console.log("Contribution is  "+ contribution);
-                assert.equal(contribute.toString(),value.toString(), " Hey! This contribution is not equal ");
+                assert.equal(contribute.toString(),sumVal.toString(), " Hey! This contribution is not equal ");
 
 
                 })

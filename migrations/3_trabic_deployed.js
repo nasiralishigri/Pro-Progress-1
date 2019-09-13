@@ -20,9 +20,13 @@ module.exports =async function(deployer,accounts) {
   var openinigTime =  1566299617105;
   var closingTime =   15662999999999;
   var _goal = 5 *wei;
+  const _foundersFund   = accounts[0]; // TODO: Replace me
+  const _foundationFund = accounts[0]; // TODO: Replace me
+  const _partnersFund   = accounts[0]; // TODO: Replace me
+  const _releaseTime    = closingTime + 10000000;
 
-await deployer.deploy(CrowdSale,_rate,checkAccount[1], trabiAddress,_cap,openinigTime, closingTime , _goal);
+await deployer.deploy(CrowdSale,_rate,checkAccount[1], trabiAddress,_cap,openinigTime, closingTime , _goal /*,_foundersFund, _foundationFund, _partnersFund,_releaseTime */);
   //  await CrowdSale.deployed();
 
-
+  return true;
 };

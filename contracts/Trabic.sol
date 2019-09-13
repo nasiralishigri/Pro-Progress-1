@@ -22,7 +22,11 @@ contract Trabic is ERC20Mintable, ERC20Pausable, ERC20Detailed, Ownable{
     string public constant ZERO_ADDRESS_RESTRICTION_MESSAGE = "ILLEGAL_TRANSFER_TO_ZERO_ADDRESS";
     mapping (address => uint256) private blacklist;
 
-  function Trabic(string memory _name, string memory _symbol, uint8 _decimals)
+  constructor(
+       string memory _name,
+       string memory _symbol, 
+       uint8 _decimals
+       )
         ERC20Detailed(_name,_symbol,_decimals)
         public
     {
